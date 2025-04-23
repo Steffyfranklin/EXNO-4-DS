@@ -24,6 +24,95 @@ The feature selection techniques used are:
 3.Embedded Method
 
 # CODING AND OUTPUT:
-       # INCLUDE YOUR CODING AND OUTPUT SCREENSHOTS HERE
+```
+import pandas as pd
+from scipy import stats
+import numpy as np
+
+df=pd.read_csv("/content/bmi.csv")
+df.head()
+```
+![image](https://github.com/user-attachments/assets/d2a68016-91ad-4aa5-854d-7ae3505821d5)
+```
+df.dropna()
+```
+![image](https://github.com/user-attachments/assets/27b7360a-6a8e-47d9-93a6-3f51f2cb7713)
+```
+max_val=np.max(np.abs(df[['Height','Weight']]))
+max_val
+```
+![image](https://github.com/user-attachments/assets/28dcf121-5d16-49c4-80de-72bf3cf72bb4)
+```
+from sklearn.preprocessing import StandardScaler
+sc=StandardScaler()
+
+df[['Height','Weight']]=sc.fit_transform(df[['Height','Weight']])
+df.head(10)
+```
+![image](https://github.com/user-attachments/assets/a3c2e8a7-5db8-4424-b368-639a1323f5d6)
+```
+from sklearn.preprocessing import Normalizer
+nm=Normalizer()
+
+df[['Height','Weight']]=nm.fit_transform(df[['Height','Weight']])
+df
+```
+![image](https://github.com/user-attachments/assets/cab27239-7791-4778-ab11-6d3edd2f095a)
+```
+from sklearn.preprocessing import MaxAbsScaler
+mas=MaxAbsScaler()
+
+df[['Height','Weight']]=mas.fit_transform(df[['Height','Weight']])
+df
+```
+![image](https://github.com/user-attachments/assets/b72a0317-3111-4e00-bf8f-afae9c1bc5f4)
+```
+from sklearn.preprocessing import RobustScaler
+rs=RobustScaler()
+
+df[['Height','Weight']]=rs.fit_transform(df[['Height','Weight']])
+df.head(5)
+```
+![image](https://github.com/user-attachments/assets/0bf3e81c-5fa6-442b-b6fd-15725f9f1e6c)
+```
+from scipy.stats import chi2_contingency
+import seaborn as sns
+tips=sns.load_dataset('tips')
+tips.head()
+```
+![image](https://github.com/user-attachments/assets/f71554fd-0582-42f1-bfdb-365283a520b3)
+```
+contingency_table=pd.crosstab(tips['sex'],tips['time'])
+contingency_table
+```
+![image](https://github.com/user-attachments/assets/42820113-7e04-489e-8fd1-b3fde46765dc)
+```
+chi2,p,_,_=chi2_contingency(contingency_table)
+print('chi-square statistic:',chi2)
+print('p-value:',p)
+```
+![image](https://github.com/user-attachments/assets/f72b7b12-1942-4b68-9fcc-f3e85ce943a5)
+```
+from sklearn.feature_selection import SelectKBest,mutual_info_classif,f_classif
+data={'Feature1':[1,2,3,4,5],'Feature2':['A','B','C','A','B'],'Feature3':[0,1,1,0,1],'Target':[0,1,1,0,1]}
+df=pd.DataFrame(data)
+df
+```
+![image](https://github.com/user-attachments/assets/5646edaa-8918-4375-870c-2d5ca56a9d1d)
+```
+x=df[['Feature1','Feature3']]
+y=df['Target']
+selector=SelectKBest(score_func=mutual_info_classif,k=1)
+x_new=selector.fit_transform(x,y)
+print('Selected features:',x_new)
+```
+![image](https://github.com/user-attachments/assets/5a18b14f-7aac-41dc-af94-4498b1ae34de)
+```
+selectedFeatureIndices=selector.get_support(indices=True)
+selectedFeatures=x.columns[selectedFeatureIndices]
+print('Selected features:',selectedFeatures)
+```
+![image](https://github.com/user-attachments/assets/c43f1030-b884-41af-aa45-e5f83593ce42)
+
 # RESULT:
-       # INCLUDE YOUR RESULT HERE
+      Successfully  read the given data and perform Feature Scaling and Feature Selection process and save the data to a file. 
